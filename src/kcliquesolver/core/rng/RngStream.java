@@ -1,4 +1,4 @@
-package kcliquesolver.core.util;
+package kcliquesolver.core.rng;
 
 /**
  * Title:          RngStream.java

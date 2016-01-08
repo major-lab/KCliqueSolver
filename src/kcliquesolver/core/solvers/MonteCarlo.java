@@ -1,23 +1,25 @@
-package kcliquesolver.core.optimization;
+package kcliquesolver.core.solvers;
 
 
+import kcliquesolver.core.interfaces.AbstractStrategy;
 import kcliquesolver.core.models.Problem;
 import kcliquesolver.core.models.Solution;
-import rna2d.core.util.ProgressBar;
-import kcliquesolver.core.interfaces.AbstractStrategy;
-import rnaclique.core.util.RngStream;
+import kcliquesolver.core.rng.RngStream;
 
 
 import java.util.ArrayList;
 
 
-public class MonteCarloStrategy extends AbstractStrategy {
+/**
+ * Used for sampling the solution space and benchmarking.
+ */
+public class MonteCarlo extends AbstractStrategy {
     private final long[] seeds;
     private boolean verbose;
     private int sampleSize;
 
 
-    public MonteCarloStrategy(int sampleSize, long[] seeds, boolean verbose) {
+    public MonteCarlo(int sampleSize, long[] seeds, boolean verbose) {
         // some assertions
         assert sampleSize > 0;
 
@@ -48,20 +50,10 @@ public class MonteCarloStrategy extends AbstractStrategy {
         RngStream stream = new RngStream();
         stream.setSeed(seeds);
 
-        ProgressBar progressBar = new ProgressBar("Monte Carlo", 40);
         ArrayList<Solution> solutions = new ArrayList<>();
         double counter = 0.;
-        for (int i = 0; i != sampleSize; ++i)
-        {
+        for (int i = 0; i != sampleSize; ++i) {
             solutions.add(generateSolutionMonteCarlo(problem, stream));
-            if (verbose)
-            {
-                progressBar.update(counter / sampleSize);
-                counter += 1;
-            }
-        }
-        if (verbose){
-            progressBar.clean();
         }
         return solutions;
     }

@@ -1,6 +1,8 @@
-package kcliquesolver.core.util;
+package kcliquesolver.core.io;
 
-import optimization.Solution;
+
+
+import kcliquesolver.core.models.Solution;
 
 import java.lang.System;import java.util.ArrayList;
 import java.util.HashSet;

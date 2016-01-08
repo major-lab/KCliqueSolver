@@ -1,4 +1,4 @@
-package kcliquesolver.core.optimization;
+package kcliquesolver.core.solvers;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,10 +11,10 @@ import kcliquesolver.core.models.Range;
 import kcliquesolver.core.models.Solution;
 import kcliquesolver.core.models.Pair;
 
-import kcliquesolver.core.util.RngStream;
+import kcliquesolver.core.rng.RngStream;
 
 
-public class HeuristicStrategy extends AbstractStrategy {
+public class HybridGeneticAlgorithm extends AbstractStrategy {
 
     // Generic solver parameters parameters
     private boolean verbose;
@@ -36,11 +36,11 @@ public class HeuristicStrategy extends AbstractStrategy {
     private final double improvementProbability;
     private final int improvementDepth;
 
-    public HeuristicStrategy(boolean verbose, double tolerance, long[] seeds,
-                             int populationSize, int numGenerations, double eliteRatio,
-                             double crossoverProbability, double crossoverMixingRatio,
-                             double mutationProbability, double mutationStrength,
-                             double improvementProbability, int improvementDepth) {
+    public HybridGeneticAlgorithm(boolean verbose, double tolerance, long[] seeds,
+                                  int populationSize, int numGenerations, double eliteRatio,
+                                  double crossoverProbability, double crossoverMixingRatio,
+                                  double mutationProbability, double mutationStrength,
+                                  double improvementProbability, int improvementDepth) {
         this.verbose = verbose;
         this.tolerance = tolerance;
         this.seeds = seeds;

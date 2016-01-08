@@ -1,12 +1,11 @@
-package kcliquesolver.core.util;
+package kcliquesolver.core.io;
 
-import kcliquesolver.core.models.Pair;
-import rna2d.core.util.Pair;
-import optimization.Problem;
+import kcliquesolver.core.models.Problem;
+import kcliquesolver.core.models.Range;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.lang.Integer;import java.lang.String;import java.lang.System;import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Reader {
@@ -19,7 +18,7 @@ public class Reader {
      */
     public static Problem readDistancesFile(String fileName){
         double[][] distanceMatrix = null;
-        ArrayList<Pair<Integer, Integer>> ranges = new ArrayList<>();
+        ArrayList<Range> ranges = new ArrayList<>();
 
         try {
             File file = new File(fileName);
@@ -33,7 +32,7 @@ public class Reader {
             // the end indices indicate that the object at position is not included
             for(int i =0 ; i != numRanges; ++i){
                 int begin = in.nextInt(); int end = in.nextInt();
-                ranges.add(new Pair<>(begin, end));
+                ranges.add(new Range(begin, end));
                 in.nextLine();
             }
 
@@ -53,6 +52,6 @@ public class Reader {
         } catch (FileNotFoundException e) {
             System.out.println("Could not find specified file (" + fileName + ")");
         }
-        return new Problem()
+        return new Problem(distanceMatrix, ranges);
     }
 }

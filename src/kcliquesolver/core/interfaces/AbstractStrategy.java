@@ -4,7 +4,7 @@ import kcliquesolver.core.models.Problem;
 import kcliquesolver.core.models.Range;
 import kcliquesolver.core.models.Solution;
 import kcliquesolver.core.models.Pair;
-import kcliquesolver.core.util.RngStream;
+import kcliquesolver.core.rng.RngStream;
 
 
 import java.util.ArrayList;
@@ -15,7 +15,6 @@ import java.util.ArrayList;
  * method to call for application of a strategy on a problem instance.
  */
 public abstract class AbstractStrategy {
-
 
     /**
      * calculates and assigns the sum of pairwise cost as the new score of the given solution

@@ -1,4 +1,4 @@
-package kcliquesolver.core.optimization;
+package kcliquesolver.core.solvers;
 
 import kcliquesolver.core.interfaces.AbstractStrategy;
 import kcliquesolver.core.models.Problem;
@@ -17,7 +17,7 @@ import java.util.PriorityQueue;
  * pruning function for the consensus problem.
  */
 
-public class ExactStrategy extends AbstractStrategy {
+public class BranchAndBound extends AbstractStrategy {
 
 
     private double threshold;
@@ -27,7 +27,7 @@ public class ExactStrategy extends AbstractStrategy {
         return verbose;
     }
 
-    public ExactStrategy(double suboptimal_threshold, boolean verbose_) {
+    public BranchAndBound(double suboptimal_threshold, boolean verbose_) {
         threshold = suboptimal_threshold;
         verbose = verbose_;
     }

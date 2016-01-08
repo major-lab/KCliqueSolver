@@ -6,7 +6,7 @@ public class Range {
     protected final int first;
     protected final int second;
 
-    Range(int first, int second) throws InputMismatchException{
+    public Range(int first, int second) throws InputMismatchException{
         if(first > second){
             throw new InputMismatchException("First index must be <= to second index (first = " +
                     first +", second = " + second + ")");
