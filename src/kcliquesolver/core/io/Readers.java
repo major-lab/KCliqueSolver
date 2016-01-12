@@ -6,17 +6,18 @@ import kcliquesolver.core.models.Range;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Reader {
+public class Readers {
 
     /**
      * Read a file encoding both the (begin, end) indices of categories
      * along with the full distance matrix between all considered objects
      * @param fileName file path to open
-     * @return
+     * @return Problem instance
      */
-    public static Problem readDistancesFile(String fileName){
+    public static Problem readDistancesFile(String fileName) throws InputMismatchException{
         double[][] distanceMatrix = null;
         ArrayList<Range> ranges = new ArrayList<>();
 
@@ -31,9 +32,7 @@ public class Reader {
             // then follows NumberOfRange [begin, end[ coordinates
             // the end indices indicate that the object at position is not included
             for(int i =0 ; i != numRanges; ++i){
-                int begin = in.nextInt(); int end = in.nextInt();
-                ranges.add(new Range(begin, end));
-                in.nextLine();
+                ranges.add(new Range(in.nextInt(), in.nextInt()));
             }
 
             // then follows the distance matrix
@@ -41,11 +40,15 @@ public class Reader {
             int x = 0;
             int y;
             while (in.hasNextLine()) {
+                in.nextLine();
                 for (y = 0; y != numObjects; ++y) {
+                    if (!in.hasNextDouble()){
+                        throw new InputMismatchException("The distance matrix is not of specified size.");
+                    }
                     distanceMatrix[x][y] = in.nextDouble();
                 }
+                // check that nothing is left
                 // go to the next row
-                in.nextLine();
                 x += 1;
             }
             in.close();

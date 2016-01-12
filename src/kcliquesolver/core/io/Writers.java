@@ -32,7 +32,6 @@ public final class Writers {
                 if(solution.getGenes().size() > 1){
                     System.out.print(solution.getGenes().get(solution.getGenes().size()-1));
                 }
-                System.out.println();
             }
             System.out.println();
         }

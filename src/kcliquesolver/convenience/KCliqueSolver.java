@@ -1,12 +1,9 @@
 package kcliquesolver.convenience;
 
 import com.martiansoftware.jsap.*;
-import kcliquesolver.core.io.Reader;
-import kcliquesolver.core.io.Writers;
+import kcliquesolver.core.io.Readers;
 import kcliquesolver.core.models.Problem;
 import kcliquesolver.core.solvers.HybridGeneticAlgorithm;
-
-import java.io.Writer;
 
 import static kcliquesolver.core.io.Writers.printUniqueSolutions;
 
@@ -137,8 +134,8 @@ public class KCliqueSolver {
 
 
         // representations
-        Problem problem = Reader.readDistancesFile(config.getString("input"));
-
+        Problem problem = Readers.readDistancesFile(config.getString("input"));
+        System.out.println(problem);
         printUniqueSolutions(strategy.solve(problem));
 
     }

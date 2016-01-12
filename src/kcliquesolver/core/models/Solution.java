@@ -56,12 +56,17 @@ public class Solution implements Comparable<Solution> {
     }
 
     public String toString() {
-        String stringRepresentation = "[";
-        for (int i = 0; i != getGenes().size(); ++i) {
-            stringRepresentation += getGenes().get(i) + " ";
+        StringBuilder builder = new StringBuilder();
+        builder.append(score);
+        builder.append(";");
+        for (int i = 0; i != getGenes().size()-1; ++i) {
+            builder.append(genes.get(i));
+            builder.append(";");
         }
-        stringRepresentation += " : " + getScore() + "]" + System.lineSeparator();
-        return stringRepresentation;
+        if(genes.size() > 1){
+            builder.append(genes.get(genes.size()-1));
+        }
+        return builder.toString();
     }
 
 

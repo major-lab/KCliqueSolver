@@ -13,3 +13,7 @@ hs_err_pid*
 
 # intellij workspace
 .idea/workspace.xml
+
+
+# output files
+out/

@@ -266,18 +266,17 @@ public class HybridGeneticAlgorithm extends AbstractStrategy {
             population = children;
         }
 
-        // clean the progress bar
-        //if (verbose)
-            //bar.clean();
 
 
         // keep all the unique best solutions up to a specified suboptimal threshold
         ArrayList<Solution> suitableSolutions = new ArrayList<>();
         double scaledThreshold = tolerance * ranges.size() * (ranges.size() - 1);
-        ArrayList<Solution> hallOfFameList = new ArrayList();
+
+        ArrayList<Solution> hallOfFameList = new ArrayList<>();
         while (hallOfFame.size() > 0) {
-            hallOfFameList.add((Solution) hallOfFame.poll());
+            hallOfFameList.add(hallOfFame.poll());
         }
+
         Collections.sort(hallOfFameList);
         double scoreThreshold = hallOfFameList.get(0).getScore() + scaledThreshold;
         for (Solution solution : hallOfFameList) {
