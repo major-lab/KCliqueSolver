@@ -55,13 +55,19 @@ public class Solution implements Comparable<Solution> {
         return new ArrayList<>(genes);
     }
 
+
+    /**
+     * String representation for a solution is : "score,index_1,index_2,..,index_n"
+     * assuming there are n choices to make
+     * @return string representation of a solution
+     */
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append(score);
-        builder.append(";");
+        builder.append(",");
         for (int i = 0; i != getGenes().size()-1; ++i) {
             builder.append(genes.get(i));
-            builder.append(";");
+            builder.append(",");
         }
         if(genes.size() > 1){
             builder.append(genes.get(genes.size()-1));

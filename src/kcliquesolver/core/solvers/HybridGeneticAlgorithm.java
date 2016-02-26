@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-import kcliquesolver.core.interfaces.AbstractStrategy;
 import kcliquesolver.core.models.Problem;
 import kcliquesolver.core.models.Range;
 import kcliquesolver.core.models.Solution;
@@ -202,7 +201,7 @@ public class HybridGeneticAlgorithm extends AbstractStrategy {
 
             // score the solutions and sort the population by score
             for (Solution solution : population) {
-                solution.setScore(calculateSumOfPairs(solution, distanceMatrix));
+                solution.setScore(calculateSumOfPairsScore(solution, distanceMatrix));
             }
             Collections.sort(population);
 

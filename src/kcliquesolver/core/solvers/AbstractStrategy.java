@@ -1,4 +1,4 @@
-package kcliquesolver.core.interfaces;
+package kcliquesolver.core.solvers;
 
 import kcliquesolver.core.models.Problem;
 import kcliquesolver.core.models.Range;
@@ -22,7 +22,7 @@ public abstract class AbstractStrategy {
      * @param solution       solution to evaluate
      * @param distanceMatrix pre-calculated get matrix
      */
-    public static double calculateSumOfPairs(Solution solution, double[][] distanceMatrix) {
+    public static double calculateSumOfPairsScore(Solution solution, double[][] distanceMatrix) {
         double score = 0.;
         ArrayList<Integer> genes = solution.getGenes();
         for (int gene1 : genes) {
@@ -52,7 +52,8 @@ public abstract class AbstractStrategy {
 
 
     /**
-     * Using the get matrix, find the change of gene that brings the most improvement (greedy)
+     * Using the distance matrix, find the change of gene
+     * that brings the most improvement (greedy)
      *
      * @param genes               current genes chosen
      * @param replacementPosition index of the gene list to investigate
@@ -115,34 +116,34 @@ public abstract class AbstractStrategy {
                                        ArrayList<Range> ranges,
                                        int maxNumIterations) {
         // forward declarations
-        int best_position, best_substitution;
-        double best_score;
+        int bestPosition, bestSubstitution;
+        double bestScore;
         Pair<Integer, Double> substitution;
         int iteration = 0;
 
         while (iteration < maxNumIterations) {
             iteration += 1;
-            best_position = -1;
-            best_substitution = -1;
-            best_score = 0.;
-            for (int replacement_position = 0; replacement_position != solution.getGenes().size(); ++replacement_position) {
-                substitution = findBestSubstitution(solution.getGenes(), replacement_position, distanceMatrix, ranges);
-                if (substitution.getSecond() < best_score) {
-                    best_position = replacement_position;
-                    best_substitution = substitution.getFirst();
-                    best_score = substitution.getSecond();
+            bestPosition = -1;
+            bestSubstitution = -1;
+            bestScore = 0.;
+            for (int replacementPosition = 0; replacementPosition != solution.getGenes().size(); ++replacementPosition) {
+                substitution = findBestSubstitution(solution.getGenes(), replacementPosition, distanceMatrix, ranges);
+                if (substitution.getSecond() < bestScore) {
+                    bestPosition = replacementPosition;
+                    bestSubstitution = substitution.getFirst();
+                    bestScore = substitution.getSecond();
                 }
             }
-            // check if a local minima is reached
-            if (best_substitution == -1) {
+            // check if a local minimum is reached
+            if (bestSubstitution == -1) {
                 break;
             } else {
-                solution.setGene(best_position, best_substitution);
+                solution.setGene(bestPosition, bestSubstitution);
             }
         }
 
         // recalculate the score
-        solution.setScore(calculateSumOfPairs(solution, distanceMatrix));
+        solution.setScore(calculateSumOfPairsScore(solution, distanceMatrix));
     }
 
 

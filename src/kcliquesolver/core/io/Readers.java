@@ -1,60 +1,87 @@
 package kcliquesolver.core.io;
 
+import com.opencsv.CSVReader;
 import kcliquesolver.core.models.Problem;
 import kcliquesolver.core.models.Range;
 
-import java.io.File;
+
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.*;
+
 
 public class Readers {
 
+
     /**
-     * Read a file encoding both the (begin, end) indices of categories
-     * along with the full distance matrix between all considered objects
+     * Read the distance matrix in an header-less csv format (the separator is ",").
+     * <p/>
+     * <p/>
+     * Assuming m categories with a total of n objects, columns will be
+     * category (integer, [0..m]) distance (double, will be n distance rows and columns)
+     * Size of the matrix should be (n rows x n+1 columns)
+     * <p/>
+     * WARNINGS:
+     * - the matrix isn't necessarily symmetrical.
+     * - the objects must be grouped together (separated by category)
+     * - e.g. 0,0,2,3
+     * 0,2,0,2
+     * 1,3,2,0
+     * not
+     * 0,0,2,3
+     * 1,2,0,2
+     * 0,3,2,0
+     *
      * @param fileName file path to open
      * @return Problem instance
      */
-    public static Problem readDistancesFile(String fileName) throws InputMismatchException{
-        double[][] distanceMatrix = null;
+    public static Problem readDistancesFile(String fileName) throws IOException {
+        // TODO: is there a better way than to prefill the problem instance with bogus data?
+        Problem problem;
+
+        CSVReader reader = new CSVReader(new FileReader(fileName));
+        ArrayList<String[]> rows = new ArrayList<>();
+        String[] nextLine;
+        while ((nextLine = reader.readNext()) != null) {
+            rows.add(nextLine);
+        }
+
+
         ArrayList<Range> ranges = new ArrayList<>();
 
-        try {
-            File file = new File(fileName);
-            Scanner in = new Scanner(file);
-
-            // first line of the file must be
-            // NumberOfObjects NumberOfRanges
-            int numObjects = in.nextInt(); int numRanges = in.nextInt(); in.nextLine();
-
-            // then follows NumberOfRange [begin, end[ coordinates
-            // the end indices indicate that the object at position is not included
-            for(int i =0 ; i != numRanges; ++i){
-                ranges.add(new Range(in.nextInt(), in.nextInt()));
+        // separate by categories
+        int rangeBegin = 0;
+        for (int rowIndex = 1; rowIndex != rows.size(); ++rowIndex) {
+            if (rows.get(rowIndex - 1)[0].compareTo(rows.get(rowIndex)[0]) != 0) {
+                // new range!
+                ranges.add(new Range(rangeBegin, rowIndex));
+                rangeBegin = rowIndex;
             }
-
-            // then follows the distance matrix
-            distanceMatrix = new double[numObjects][numObjects];
-            int x = 0;
-            int y;
-            while (in.hasNextLine()) {
-                in.nextLine();
-                for (y = 0; y != numObjects; ++y) {
-                    if (!in.hasNextDouble()){
-                        throw new InputMismatchException("The distance matrix is not of specified size.");
-                    }
-                    distanceMatrix[x][y] = in.nextDouble();
-                }
-                // check that nothing is left
-                // go to the next row
-                x += 1;
-            }
-            in.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("Could not find specified file (" + fileName + ")");
         }
-        return new Problem(distanceMatrix, ranges);
+
+        if (rangeBegin != rows.size()) {
+            // last one is not in there
+            ranges.add(new Range(rangeBegin, rows.size()));
+        }
+
+        double[][] distanceMatrix = new double[rows.size()][rows.size()];
+        for (int rowIndex = 0; rowIndex != rows.size(); ++rowIndex) {
+            String[] row = rows.get(rowIndex);
+            double[] distances = new double[rows.size()];
+            for (int i = 1; i != row.length; ++i) {
+                distances[i-1] = Double.parseDouble(row[i]);
+            }
+            distanceMatrix[rowIndex] = distances;
+        }
+
+        problem = new Problem(distanceMatrix, ranges);
+
+
+        return problem;
     }
 }
+
+
+
+

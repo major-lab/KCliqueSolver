@@ -3,7 +3,13 @@ package kcliquesolver.convenience;
 import com.martiansoftware.jsap.*;
 import kcliquesolver.core.io.Readers;
 import kcliquesolver.core.models.Problem;
+import kcliquesolver.core.models.Solution;
 import kcliquesolver.core.solvers.HybridGeneticAlgorithm;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 import static kcliquesolver.core.io.Writers.printUniqueSolutions;
 
@@ -11,7 +17,7 @@ public class KCliqueSolver {
 
 
     // only current interface is the hybrid genetic algorithm
-    public static void main(String[] args) throws JSAPException {
+    public static void main(String[] args) throws JSAPException, IOException {
 
         //region PARSING
         JSAP parser = new JSAP();
@@ -135,8 +141,9 @@ public class KCliqueSolver {
 
         // representations
         Problem problem = Readers.readDistancesFile(config.getString("input"));
-        System.out.println(problem);
-        printUniqueSolutions(strategy.solve(problem));
+
+        ArrayList<Solution> solutions = strategy.solve(problem);
+        printUniqueSolutions(solutions, new BufferedWriter(new OutputStreamWriter(System.out)));
 
     }
 }
