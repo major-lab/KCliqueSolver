@@ -64,10 +64,10 @@ public class Solution implements Comparable<Solution> {
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append(score);
-        builder.append(",");
+        builder.append(',');
         for (int i = 0; i != getGenes().size()-1; ++i) {
             builder.append(genes.get(i));
-            builder.append(",");
+            builder.append(',');
         }
         if(genes.size() > 1){
             builder.append(genes.get(genes.size()-1));

@@ -19,7 +19,7 @@ public final class Writers {
     public static void printUniqueSolutions(ArrayList<Solution> solutions, Writer writer) throws IOException {
 
 
-        CSVWriter csvWriter = new CSVWriter(writer);
+        CSVWriter csvWriter = new CSVWriter(writer, ',', CSVWriter.NO_QUOTE_CHARACTER);
 
         HashSet<Solution> uniqueSolutions = new HashSet<>();
         for (int index = 0; index != solutions.size(); ++index) {

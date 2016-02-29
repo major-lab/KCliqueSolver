@@ -4,6 +4,7 @@
     <root id="archive" name="KCliqueSolver.jar">
       <element id="module-output" name="KCliqueSolver" />
       <element id="extracted-dir" path="$PROJECT_DIR$/libs/JSAP-2.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/opencsv-3.7.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
